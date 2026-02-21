@@ -1,8 +1,8 @@
 // script.js
 const chatInput = 
     document.querySelector('.chat-input textarea');
-const sendChatBtn = 
-    document.querySelector('.chat-input button');
+const sendChatBtn =
+    document.querySelector('.chat-input button')
 const chatbox = document.querySelector(".chatbox");
 
 let userMessage;
