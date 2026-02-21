@@ -1,6 +1,6 @@
 # hackathon2026
 ## Adding an API Key
-1. Go to <https://platform.openai.com/api-keys>.
+1. Go to <https://openrouter.ai/> -> Click 'Get API key' -> Click 'Create'.
 2. Click 'Create new secret key'
 3. Follow the instructions it provides
 4. Go back to your directory and create `secrets.js`

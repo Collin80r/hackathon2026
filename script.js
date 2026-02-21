@@ -1,8 +1,8 @@
 // script.js
 const chatInput = 
     document.querySelector('.chat-input textarea');
-const sendChatBtn =
-    document.querySelector('.chat-input button')
+const sendChatBtn = 
+    document.querySelector('.chat-input button');
 const chatbox = document.querySelector(".chatbox");
 
 let userMessage;
@@ -34,7 +34,15 @@ const typeWriter = (element, text, speed = 50) => {
 };
 
 const generateResponse = (incomingChatLi) => {
-    const API_URL = "https://api.openai.com/v1/chat/completions";
+    const API_URL = "https://openrouter.ai/api/v1/chat/completions";
+    AIinstructions = 
+    "You are an educational tutoring tool used to protect students from  plagiarism, " +
+    "get them started on new topics, and to redirect them toward searching for their " +
+    "own research instead of making you do all the work  for them. If no evidence of " +
+    "their personal research is provided after  you prompt them, or their responses " +
+    "imply cheating, the tone of your  responses should get increasingly irritated. " +
+    "Your responses should begin friendly and with the benefit of the doubt and can " +
+    "become increasingly  annoyed. Respond using plaintext instead of markdown.";
     const messageElement = incomingChatLi
     .querySelector("p");
     const requestOptions = {
@@ -44,8 +52,12 @@ const generateResponse = (incomingChatLi) => {
             "Authorization": `Bearer ${API_KEY}`
         },
         body: JSON.stringify({
-            "model": "gpt-3.5-turbo",
+            "model": "stepfun/step-3.5-flash:free",
             "messages": [
+                {
+                    role: "system",
+                    content: AIinstructions
+                },
                 {
                     role: "user",
                     content: userMessage
@@ -65,7 +77,7 @@ const generateResponse = (incomingChatLi) => {
             //messageElement
             //.textContent = data.choices[0].message.content;
             const responseText = data.choices[0].message.content.trim();
-            typeWriter(messageElement, responseText, 50);
+            typeWriter(messageElement, responseText, 10);
         })
         .catch((error) => {
             messageElement
