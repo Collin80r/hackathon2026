@@ -66,6 +66,8 @@ const handleChat = () => {
     chatbox
     .scrollTo(0, chatbox.scrollHeight);
 
+    chatInput.value = "";
+
     setTimeout(() => {
         const incomingChatLi = createChatLi("Thinking...", "chat-incoming");
         chatbox.appendChild(incomingChatLi);
