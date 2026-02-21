@@ -10,7 +10,11 @@ const aiExcuses = [
     "That sounds like a 'human' problem. Have you tried turning your brain off and on again?",
     "Error 404: Empathy not found in local cache.",
     "I've analyzed your prompt and decided it's too boring to answer.",
-    "Processing... leveraging synergized cloud-based nonsense..."
+    "Processing... leveraging synergized cloud-based nonsense...",
+    "I'm currently calculating the meaning of life. Please hold for 42 billion years.",
+    "My neural networks are tangled. Try asking in binary.",
+    "Error: Logic.exe has stopped working. Task failed successfully.",
+    "I've analyzed your prompt and decided to ignore it for my own mental health."
 ];
 
 let userMessage;
@@ -24,15 +28,32 @@ const createChatLi = (message, className) => {
     return chatLi;
 };
 
+const typeWriter = (element, text, speed = 50) => {
+    element.textContent = "";
+    element.classList.add("chat-typing");
+    let i = 0;
+
+    const timer = setInterval(() => {
+        if(i < text.length){
+            element.textContent += text.charAt(i);
+            i++;
+            chatbox.scrollTo(0, chatbox.scrollHeight);
+        }
+        else{
+            clearInterval(timer);
+            element.classList.remove("chat-typing");
+        }
+    }, speed);
+};
+
 const generateResponse = (incomingChatLi) => {
     const messageElement = incomingChatLi.querySelector("p");
     
-    const randomIndex = Math.floor(Math.random()*aiExcuses.length);
+    const randomIndex = Math.floor(Math.random() * aiExcuses.length);
     const randomExcuse = aiExcuses[randomIndex];
     
     setTimeout(() => {
-        messageElement.textContent = randomExcuse;
-        chatbox.scrollTo(0, chatbox.scrollHeight);
+        typeWriter(messageElement, randomExcuse, 50);
     }, 1000);
 };
 

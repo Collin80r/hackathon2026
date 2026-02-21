@@ -14,6 +14,25 @@ const createChatLi = (message, className) => {
     chatLi.innerHTML = chatContent;
     return chatLi;
 };
+
+const typeWriter = (element, text, speed = 50) => {
+    element.textContent = "";
+    element.classList.add("chat-typing");
+    let i = 0;
+
+    const timer = setInterval(() => {
+        if(i < text.length){
+            element.textContent += text.charAt(i);
+            i++;
+            chatbox.scrollTo(0, chatbox.scrollHeight);
+        }
+        else{
+            clearInterval(timer);
+            element.classList.remove("chat-typing");
+        }
+    }, speed);
+};
+
 const generateResponse = (incomingChatLi) => {
     const API_URL = "https://api.openai.com/v1/chat/completions";
     const messageElement = incomingChatLi
@@ -43,8 +62,10 @@ const generateResponse = (incomingChatLi) => {
             return res.json();
         })
         .then(data => {
-            messageElement
-            .textContent = data.choices[0].message.content;
+            //messageElement
+            //.textContent = data.choices[0].message.content;
+            const responseText = data.choices[0].message.content.trim();
+            typeWriter(messageElement, responseText, 50);
         })
         .catch((error) => {
             messageElement
