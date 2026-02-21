@@ -13,7 +13,7 @@ const createChatLi = (message, className) => {
         className === "chat-outgoing" ? `<p>${message}</p>` : `<p>${message}</p>`;
     chatLi.innerHTML = chatContent;
     return chatLi;
-}
+};
 const generateResponse = (incomingChatLi) => {
     const API_URL = "https://api.openai.com/v1/chat/completions";
     const messageElement = incomingChatLi
@@ -67,12 +67,12 @@ const handleChat = () => {
     .scrollTo(0, chatbox.scrollHeight);
 
     setTimeout(() => {
-        const incomingChatLi = createChatLi("Thinking...", "chat-incoming")
+        const incomingChatLi = createChatLi("Thinking...", "chat-incoming");
         chatbox.appendChild(incomingChatLi);
         chatbox.scrollTo(0, chatbox.scrollHeight);
         generateResponse(incomingChatLi);
     }, 600);
-}
+};
 
 sendChatBtn.addEventListener("click", handleChat);
 
@@ -83,6 +83,6 @@ function cancel() {
         let lastMsg = document.createElement("p");
         lastMsg.textContent = 'Thanks for using our Chatbot!';
         lastMsg.classList.add('lastMessage');
-        document.body.appendChild(lastMsg)
+        document.body.appendChild(lastMsg);
     }
 }
