@@ -3,6 +3,21 @@ const chatInput =
 const sendChatBtn = 
     document.querySelector('.chat-input button');
 const chatbox = document.querySelector(".chatbox");
+const AIinstructions = 
+    "You are an educational tutoring tool used to protect students from  plagiarism, " +
+    "get them started on new topics, and to redirect them toward searching for their " +
+    "own research instead of making you do all the work  for them. If no evidence of " +
+    "their personal research is provided after  you prompt them, or their responses " +
+    "imply cheating, the tone of your  responses should get increasingly irritated. " +
+    "Your responses should begin friendly and with the benefit of the doubt and can " +
+    "become increasingly  annoyed. Respond using plaintext instead of markdown.";
+messages = [
+    {
+        role: "system",
+        content: AIinstructions
+    }
+]
+
 
 let userMessage;
 const createChatDiv = (message, className) => {
@@ -33,16 +48,12 @@ const typeWriter = (element, text, speed = 50) => {
 
 const generateResponse = (incomingChatDiv) => {
     const API_URL = "https://openrouter.ai/api/v1/chat/completions";
-    AIinstructions = 
-    "You are an educational tutoring tool used to protect students from  plagiarism, " +
-    "get them started on new topics, and to redirect them toward searching for their " +
-    "own research instead of making you do all the work  for them. If no evidence of " +
-    "their personal research is provided after  you prompt them, or their responses " +
-    "imply cheating, the tone of your  responses should get increasingly irritated. " +
-    "Your responses should begin friendly and with the benefit of the doubt and can " +
-    "become increasingly  annoyed. Respond using plaintext instead of markdown.";
     const messageElement = incomingChatDiv
     .querySelector("p");
+    messages.push({
+        role: "user",
+        content: userMessage
+    });
     const requestOptions = {
         method: "POST",
         headers: {
@@ -51,16 +62,7 @@ const generateResponse = (incomingChatDiv) => {
         },
         body: JSON.stringify({
             "model": "stepfun/step-3.5-flash:free",
-            "messages": [
-                {
-                    role: "system",
-                    content: AIinstructions
-                },
-                {
-                    role: "user",
-                    content: userMessage
-                }
-            ]
+            "messages": messages
         })
     };
 
@@ -73,6 +75,7 @@ const generateResponse = (incomingChatDiv) => {
         })
         .then(data => {
             const responseText = data.choices[0].message.content.trim();
+            messages.push(data.choices[0].message);
             typeWriter(messageElement, responseText, 10);
         })
         .catch((error) => {
