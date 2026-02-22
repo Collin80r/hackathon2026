@@ -7,6 +7,13 @@
           content="width=device-width, initial-scale=1.0">
     <title>ChatBot</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css/github-markdown.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        marked.setOptions({
+        highlight: (code) => hljs.highlightAuto(code).value
+        });
+    </script>
 </head>
 <body>
 
