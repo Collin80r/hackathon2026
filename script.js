@@ -108,14 +108,3 @@ const handleChat = () => {
 };
 
 sendChatBtn.addEventListener("click", handleChat);
-
-function cancel() {
-    let chatbotcomplete = document.querySelector(".chatBot");
-    if (chatbotcomplete.style.display != 'none') {
-        chatbotcomplete.style.display = "none";
-        let lastMsg = document.createElement("p");
-        lastMsg.textContent = 'Thanks for using our Chatbot!';
-        lastMsg.classList.add('lastMessage');
-        document.body.appendChild(lastMsg);
-    }
-}
