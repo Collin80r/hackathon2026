@@ -29,27 +29,24 @@ let userMessage;
 const createChatDiv = (message, className) => {
     const chatDiv = document.createElement("div");
     chatDiv.classList.add("chat", className);
-    let chatContent = 
-        className === "chat-outgoing" ? `<p>${message}</p>` : `<p>${message}</p>`;
-    chatDiv.innerHTML = chatContent;
+
+    chatDiv.innerHTML = `<p class="markdown-body">${message}</p>`;
     return chatDiv;
 };
 
-const typeWriter = (element, text, speed = 50) => {
-    element.textContent = "";
-    element.classList.add("chat-typing");
+const typeWriter = (element, html, speed = 5) => {
+    element.innerHTML = "";
     let i = 0;
 
-    const timer = setInterval(() => {
-        if(i < text.length){
-            element.textContent += text.charAt(i);
+        const timer = setInterval(() => {
+        if (i < html.length) {
+            element.innerHTML = html.slice(0, i);
             i++;
-        }
-        else{
+        } else {
             clearInterval(timer);
-            element.classList.remove("chat-typing");
         }
     }, speed);
+
 };
 
 const generateResponse = (incomingChatDiv) => {
@@ -80,9 +77,11 @@ const generateResponse = (incomingChatDiv) => {
             return res.json();
         })
         .then(data => {
-            const responseText = data.choices[0].message.content.trim();
-            messages.push(data.choices[0].message);
-            typeWriter(messageElement, responseText, 10);
+            const responseText = data.choices[0].message.content;
+            
+            const html = marked.parse(responseText);
+
+            typeWriter(messageElement, html, 5);
         })
         .catch((error) => {
             messageElement
