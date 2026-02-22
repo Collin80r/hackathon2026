@@ -95,7 +95,8 @@ const handleChat = () => {
     chatInput.value = "";
 
     setTimeout(() => {
-        const incomingChatDiv = createChatDiv("Thinking...", "chat-incoming");
+        //const incomingChatDiv = createChatDiv("Thinking...", "chat-incoming");
+        const incomingChatLi = createChatLi('Thinking<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span>', "chat-incoming");
         chatbox.appendChild(incomingChatDiv);
         generateResponse(incomingChatDiv);
     }, 600);
