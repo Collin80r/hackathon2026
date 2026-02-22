@@ -1,4 +1,3 @@
-// script.js
 const chatInput = 
     document.querySelector('.chat-input textarea');
 const sendChatBtn = 
@@ -6,13 +5,13 @@ const sendChatBtn =
 const chatbox = document.querySelector(".chatbox");
 
 let userMessage;
-const createChatLi = (message, className) => {
-    const chatLi = document.createElement("li");
-    chatLi.classList.add("chat", className);
+const createChatDiv = (message, className) => {
+    const chatDiv = document.createElement("div");
+    chatDiv.classList.add("chat", className);
     let chatContent = 
         className === "chat-outgoing" ? `<p>${message}</p>` : `<p>${message}</p>`;
-    chatLi.innerHTML = chatContent;
-    return chatLi;
+    chatDiv.innerHTML = chatContent;
+    return chatDiv;
 };
 
 const typeWriter = (element, text, speed = 50) => {
@@ -24,7 +23,6 @@ const typeWriter = (element, text, speed = 50) => {
         if(i < text.length){
             element.textContent += text.charAt(i);
             i++;
-            chatbox.scrollTo(0, chatbox.scrollHeight);
         }
         else{
             clearInterval(timer);
@@ -33,7 +31,7 @@ const typeWriter = (element, text, speed = 50) => {
     }, speed);
 };
 
-const generateResponse = (incomingChatLi) => {
+const generateResponse = (incomingChatDiv) => {
     const API_URL = "https://openrouter.ai/api/v1/chat/completions";
     AIinstructions = 
     "You are an educational tutoring tool used to protect students from  plagiarism, " +
@@ -43,7 +41,7 @@ const generateResponse = (incomingChatLi) => {
     "imply cheating, the tone of your  responses should get increasingly irritated. " +
     "Your responses should begin friendly and with the benefit of the doubt and can " +
     "become increasingly  annoyed. Respond using plaintext instead of markdown.";
-    const messageElement = incomingChatLi
+    const messageElement = incomingChatDiv
     .querySelector("p");
     const requestOptions = {
         method: "POST",
@@ -74,8 +72,6 @@ const generateResponse = (incomingChatLi) => {
             return res.json();
         })
         .then(data => {
-            //messageElement
-            //.textContent = data.choices[0].message.content;
             const responseText = data.choices[0].message.content.trim();
             typeWriter(messageElement, responseText, 10);
         })
@@ -84,8 +80,7 @@ const generateResponse = (incomingChatLi) => {
             .classList.add("error");
             messageElement
             .textContent = "Oops! Something went wrong. Please try again!";
-        })
-        .finally(() => chatbox.scrollTo(0, chatbox.scrollHeight));
+        });
 };
 
 
@@ -95,17 +90,14 @@ const handleChat = () => {
         return;
     }
     chatbox
-    .appendChild(createChatLi(userMessage, "chat-outgoing"));
-    chatbox
-    .scrollTo(0, chatbox.scrollHeight);
+    .appendChild(createChatDiv(userMessage, "chat-outgoing"));
 
     chatInput.value = "";
 
     setTimeout(() => {
-        const incomingChatLi = createChatLi("Thinking...", "chat-incoming");
-        chatbox.appendChild(incomingChatLi);
-        chatbox.scrollTo(0, chatbox.scrollHeight);
-        generateResponse(incomingChatLi);
+        const incomingChatDiv = createChatDiv("Thinking...", "chat-incoming");
+        chatbox.appendChild(incomingChatDiv);
+        generateResponse(incomingChatDiv);
     }, 600);
 };
 
