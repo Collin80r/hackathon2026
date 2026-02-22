@@ -79,6 +79,7 @@ header h2 {
 }
 
 .chat-incoming p {
+  color: #000;
   width: fit-content;
   background-color: transparent;
 }
