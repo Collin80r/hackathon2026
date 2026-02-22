@@ -177,6 +177,11 @@ header h2 {
   margin-right: 8px;
 }
 
+#chat-spacer {
+  height: 50px;
+  background-color: transparent;
+}
+
 .lastMessage {
   margin-top: 50px;
   font-size: 35px;
