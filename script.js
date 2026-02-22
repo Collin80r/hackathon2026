@@ -109,3 +109,10 @@ const handleChat = () => {
 };
 
 sendChatBtn.addEventListener("click", handleChat);
+chatInput.addEventListener("keydown", function (event) {
+  if (event.key === "Enter" && !event.shiftKey) {
+    event.preventDefault();
+    handleChat();
+    chatInput.value = "";
+  }
+});
