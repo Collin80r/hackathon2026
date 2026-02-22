@@ -89,14 +89,17 @@ const handleChat = () => {
     if (!userMessage) {
         return;
     }
-    chatbox
-    .appendChild(createChatDiv(userMessage, "chat-outgoing"));
+    chatSpacer = chatbox.removeChild(document.getElementById("chat-spacer"));
+    chatbox.appendChild(createChatDiv(userMessage, "chat-outgoing"));
+    chatbox.appendChild(chatSpacer);
 
     chatInput.value = "";
 
     setTimeout(() => {
         const incomingChatDiv = createChatDiv('Thinking<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span>', "chat-incoming");
+        chatSpacer = chatbox.removeChild(document.getElementById("chat-spacer"));
         chatbox.appendChild(incomingChatDiv);
+        chatbox.appendChild(chatSpacer);
         generateResponse(incomingChatDiv);
     }, 600);
 };
